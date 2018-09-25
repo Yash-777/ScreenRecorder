@@ -1,0 +1,146 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.github.yash-777</groupId>
+  <artifactId>ScreenRecorder</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>ScreenRecorder</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <slf4j-api.version>1.7.2</slf4j-api.version>
+    <slf4j-simple.version>1.7.2</slf4j-simple.version>
+    
+    <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+    <maven-jar-plugin-version>3.1.0</maven-jar-plugin-version>
+    
+    <!--  Java 7  -->
+    <java.version>1.7</java.version>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    
+    <!-- Download the jar file classes and place into runnable jar. -->
+    <maven-shade-plugin-version>3.1.1</maven-shade-plugin-version>
+      <xuggle-groupId>xuggle</xuggle-groupId>
+      <slf4j-groupId>org.slf4j</slf4j-groupId>
+    
+  </properties>
+
+	<!-- https://maven.apache.org/pom.html -->
+	<repositories>
+		<repository>
+			<id>xuggle repo</id>
+			<url>https://files.liferay.com/mirrors/xuggle.googlecode.com/svn/trunk/repo/share/java/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	
+  <dependencies>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>3.8.1</version>
+		<scope>test</scope>
+	</dependency>
+	
+	<!-- https://files.liferay.com/mirrors/xuggle.googlecode.com/ -->
+	<dependency>
+		<groupId>xuggle</groupId>
+		<artifactId>xuggle-xuggler</artifactId>
+		<version>5.4</version>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${slf4j-api.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-simple</artifactId>
+		<version>${slf4j-simple.version}</version>
+	</dependency>
+
+  </dependencies>
+  
+  <build>
+  
+	<plugins>
+	
+	<plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-compiler-plugin</artifactId>
+         <version>${maven-compiler-plugin.version}</version>
+         <configuration>
+           <encoding>ISO-8859-1</encoding>
+           <source>${maven.compiler.source}</source>
+           <target>${maven.compiler.target}</target>
+         </configuration>
+      </plugin>
+	
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+			<version>${maven-jar-plugin-version}</version>
+			
+			<configuration>
+				<archive>
+					<manifest>
+						<mainClass>io.github.yash777.xuggler.VideoFrame</mainClass>
+					</manifest>
+					
+					<manifestEntries>
+						<Class-Path>.</Class-Path>
+					</manifestEntries>
+				</archive>
+				<descriptorRefs>
+					<descriptorRef>jar-with-dependencies</descriptorRef>
+				</descriptorRefs>
+				
+				<charset>utf-8</charset>
+			</configuration>
+		</plugin>
+
+<!-- use maven-shade-plugin to pull in dependencies to make the standalone.jar. -->
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-shade-plugin</artifactId>
+    <version>${maven-shade-plugin-version}</version>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>shade</goal>
+            </goals>
+            <configuration>
+                <createSourcesJar>false</createSourcesJar>
+                <shadedArtifactAttached>false</shadedArtifactAttached>
+                <artifactSet>
+                    <includes>
+                        <include>${xuggle-groupId}:*</include>
+                        <include>${slf4j-groupId}:*</include>
+                    </includes>
+                    <excludes>
+                        <exclude>junit:junit</exclude>
+                    </excludes>
+                </artifactSet>
+                
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+	
+
+	</plugins>
+  </build>
+</project>
