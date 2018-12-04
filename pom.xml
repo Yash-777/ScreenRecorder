@@ -7,28 +7,95 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>ScreenRecorder</name>
-  <url>http://maven.apache.org</url>
+  <!-- Project - ${project.artifactId} -->
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>
+  Screen Recorder jar enables you to capture any area of your screen either as a screenshot or a video file.
+  </description>
+  <url>https://yash-777.github.io/ScreenRecorder</url>
+  <inceptionYear>2018</inceptionYear>
+  <!-- Organization -->
+  <organization>
+	<url>https://yash-777.github.io/ScreenRecorder/</url>
+	<name>GitHub OpenSource</name>
+  </organization>
+  <!-- License Information, Developer Information, SCM Information -->
+  <licenses>
+	<license>
+	  <name>Apache 2.0</name>
+	  <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+	  <distribution>repo</distribution>
+	</license>
+  </licenses>
+  <developers>
+	<developer>
+	  <id>Yash-777</id>
+	  <name>Yashwanth</name>
+	  <email>yashwanth.merugu@gmail.com</email>
+	  <url>http://Yash-777.github.io</url>
+	  <organization>N/A</organization>
+	  <organizationUrl>N/A</organizationUrl>
+	  <roles>
+		<role>developer</role>
+	  </roles>
+	  <timezone>+5</timezone>
+	</developer>
+  </developers>
+  <scm>
+	<url>https://github.com/Yash-777/ScreenRecorder</url>
+	<connection>scm:git:https://github.com/Yash-777/ScreenRecorder.git</connection>
+	<developerConnection>scm:git:https://github.com/Yash-777/ScreenRecorder.git</developerConnection>
+	<tag>ScreenRecorder</tag>
+  </scm>
+  <issueManagement>
+	  <system>GitHub Issues</system>
+	  <url>https://github.com/Yash-777/ScreenRecorder/issues</url>
+  </issueManagement>
+  <distributionManagement>
+	<repository>
+		<id>sonatype-nexus-releases</id>
+		<name>Sonatype Nexus Staging Repository</name>
+		<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+	</repository>
+	<snapshotRepository>
+		<id>sonatype-nexus-snapshot</id>
+		<name>Sonatype Nexus Snapshot Repository</name>
+		<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	</snapshotRepository>
+  </distributionManagement>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <slf4j-api.version>1.7.2</slf4j-api.version>
-    <slf4j-simple.version>1.7.2</slf4j-simple.version>
-    
-    <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
-    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-    <maven-jar-plugin-version>3.1.0</maven-jar-plugin-version>
-    
-    <!--  Java 7  -->
-    <java.version>1.7</java.version>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    
-    <!-- Download the jar file classes and place into runnable jar. -->
-    <maven-shade-plugin-version>3.1.1</maven-shade-plugin-version>
-      <xuggle-groupId>xuggle</xuggle-groupId>
-      <slf4j-groupId>org.slf4j</slf4j-groupId>
-    
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<slf4j-api.version>1.7.2</slf4j-api.version>
+	<slf4j-simple.version>1.7.2</slf4j-simple.version>
+	
+	<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+	<maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+	<maven-jar-plugin-version>3.1.0</maven-jar-plugin-version>
+	<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+	
+	<!--  Java 7  -->
+	<java.version>1.7</java.version>
+	<maven.compiler.target>${java.version}</maven.compiler.target>
+	<maven.compiler.source>${java.version}</maven.compiler.source>
+	
+	<!-- Download the jar file classes and place into runnable jar. -->
+	<maven-shade-plugin-version>3.1.1</maven-shade-plugin-version>
+	  <xuggle-groupId>xuggle</xuggle-groupId>
+	  <slf4j-groupId>org.slf4j</slf4j-groupId>
+	
+	<!-- https://stackoverflow.com/a/28284333/5081877 -->
+	<project.scm.id>my-scm-server</project.scm.id>
+	
+	<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+		<gpg.keyname>ADFF18D60ABF0188</gpg.keyname>
+		<gpg.passphraseServerId>Yash@Sonatype</gpg.passphraseServerId>
+	
+	<nexus-staging-maven-plugin-version>1.6.7</nexus-staging-maven-plugin-version>
+		
+		<sonatype-nexus-staging>sonatype-nexus-staging</sonatype-nexus-staging>
+		<sonatype-nexus-staging-url>https://oss.sonatype.org/</sonatype-nexus-staging-url>
+		
   </properties>
 
 	<!-- https://maven.apache.org/pom.html -->
@@ -74,72 +141,152 @@
   </dependencies>
   
   <build>
-  
+	<defaultGoal>clean install</defaultGoal>
 	<plugins>
 	
 	<plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-compiler-plugin</artifactId>
-         <version>${maven-compiler-plugin.version}</version>
-         <configuration>
-           <encoding>ISO-8859-1</encoding>
-           <source>${maven.compiler.source}</source>
-           <target>${maven.compiler.target}</target>
-         </configuration>
-      </plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<version>${maven-compiler-plugin.version}</version>
+		<configuration>
+			<encoding>ISO-8859-1</encoding>
+			<source>${maven.compiler.source}</source>
+			<target>${maven.compiler.target}</target>
+		</configuration>
+	</plugin>
 	
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-jar-plugin</artifactId>
-			<version>${maven-jar-plugin-version}</version>
-			
-			<configuration>
-				<archive>
-					<manifest>
-						<mainClass>io.github.yash777.xuggler.VideoFrame</mainClass>
-					</manifest>
-					
-					<manifestEntries>
-						<Class-Path>.</Class-Path>
-					</manifestEntries>
-				</archive>
-				<descriptorRefs>
-					<descriptorRef>jar-with-dependencies</descriptorRef>
-				</descriptorRefs>
-				
-				<charset>utf-8</charset>
-			</configuration>
-		</plugin>
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-source-plugin</artifactId>
+		<version>${maven-source-plugin.version}</version>
+		<executions>
+			<execution>
+				<id>attach-sources</id>
+				<goals>
+					<goal>jar-no-fork</goal>
+				</goals>
+			</execution>
+		</executions>
+	</plugin>
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-javadoc-plugin</artifactId>
+		<version>2.9.1</version>
+		<executions>
+			<execution>
+				<id>attach-javadocs</id>
+				<goals>
+					<goal>jar</goal>
+				</goals>
+			</execution>
+		</executions>
+	</plugin>
 
-<!-- use maven-shade-plugin to pull in dependencies to make the standalone.jar. -->
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-shade-plugin</artifactId>
-    <version>${maven-shade-plugin-version}</version>
-    <executions>
-        <execution>
-            <phase>package</phase>
-            <goals>
-                <goal>shade</goal>
-            </goals>
-            <configuration>
-                <createSourcesJar>false</createSourcesJar>
-                <shadedArtifactAttached>false</shadedArtifactAttached>
-                <artifactSet>
-                    <includes>
-                        <include>${xuggle-groupId}:*</include>
-                        <include>${slf4j-groupId}:*</include>
-                    </includes>
-                    <excludes>
-                        <exclude>junit:junit</exclude>
-                    </excludes>
-                </artifactSet>
-                
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
+
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-jar-plugin</artifactId>
+		<version>${maven-jar-plugin-version}</version>
+		
+		<configuration>
+			<archive>
+				<manifest>
+					<mainClass>io.github.yash777.xuggler.VideoFrame</mainClass>
+				</manifest>
+				
+				<manifestEntries>
+					<Class-Path>.</Class-Path>
+				</manifestEntries>
+			</archive>
+			<descriptorRefs>
+				<descriptorRef>jar-with-dependencies</descriptorRef>
+			</descriptorRefs>
+			
+			<charset>utf-8</charset>
+		</configuration>
+	</plugin>
+
+	<!-- use maven-shade-plugin to pull in dependencies to make the standalone.jar. -->
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-shade-plugin</artifactId>
+		<version>${maven-shade-plugin-version}</version>
+		<executions>
+			<execution>
+				<phase>package</phase>
+				<goals>
+					<goal>shade</goal>
+				</goals>
+				<configuration>
+					<createSourcesJar>false</createSourcesJar>
+					<shadedArtifactAttached>false</shadedArtifactAttached>
+					<artifactSet>
+						<includes>
+							<include>${xuggle-groupId}:*</include>
+							<include>${slf4j-groupId}:*</include>
+						</includes>
+						<excludes>
+							<exclude>junit:junit</exclude>
+						</excludes>
+					</artifactSet>
+					
+				</configuration>
+			</execution>
+		</executions>
+	</plugin>
 	
+	<plugin>
+		<groupId>org.sonatype.plugins</groupId>
+		<artifactId>nexus-staging-maven-plugin</artifactId>
+		<version>${nexus-staging-maven-plugin-version}</version>
+		<extensions>true</extensions>
+		<configuration>
+			<serverId>${sonatype-nexus-staging}</serverId>
+			<nexusUrl>${sonatype-nexus-staging-url}</nexusUrl>
+			<autoReleaseAfterClose>true</autoReleaseAfterClose>
+		</configuration>
+	</plugin>
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-gpg-plugin</artifactId>
+		<version>${maven-gpg-plugin.version}</version>
+		<executions>
+			<execution>
+				<id>sign-artifacts</id>
+				<phase>verify</phase>
+				<goals>
+					<goal>sign</goal>
+				</goals>
+				
+				<configuration>
+					<keyname>${gpg.keyname}</keyname>
+					<passphraseServerId>${gpg.passphraseServerId}</passphraseServerId>
+				</configuration>
+			</execution>
+		</executions>
+	</plugin>
+	
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-release-plugin</artifactId>
+		<version>${maven-release-plugin.version}</version>
+		<configuration>
+			<tagNameFormat>@{project.artifactId}/@{project.version}</tagNameFormat>
+			<autoVersionSubmodules>true</autoVersionSubmodules>
+			<useReleaseProfile>false</useReleaseProfile>
+			<releaseProfiles>release</releaseProfiles>
+			<goals>deploy</goals>
+			
+			<checkModificationExcludes>
+				<!-- <checkModificationExclude>pom.xml</checkModificationExclude> -->
+				<checkModificationExclude>target/</checkModificationExclude>
+				<checkModificationExclude>docs/</checkModificationExclude>
+				<checkModificationExclude>.gitignore</checkModificationExclude>
+				<checkModificationExclude>README.md</checkModificationExclude>
+				<checkModificationExclude>LICENSE</checkModificationExclude>
+			</checkModificationExcludes>
+		</configuration>
+	</plugin>
 
 	</plugins>
   </build>

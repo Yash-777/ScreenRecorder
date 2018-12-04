@@ -86,8 +86,6 @@ public class AudioChannel extends Screen implements Recorder {
 	}
 	/**
 	 * Start audio recording.
-	 *
-	 * @return the simple audio recorder
 	 */
 	public void start( ) {
 		
